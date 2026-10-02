@@ -33,6 +33,8 @@ export function Icon({ name, size = 18, style }) {
     case 'archive':return <svg {...p}><rect x="3" y="4" width="18" height="4" rx="1" {..._s} /><path d="M5 8v11a1 1 0 001 1h12a1 1 0 001-1V8" {..._s} /><path d="M10 12h4" {..._s} /></svg>;
     case 'restore':return <svg {...p}><path d="M4 8a8 8 0 11-1 4" {..._s} /><path d="M4 4v4h4" {..._s} /><path d="M12 8v4l3 2" {..._s} /></svg>;
     case 'undo':return <svg {...p}><path d="M9 7L4 12l5 5" {..._s} /><path d="M4 12h11a5 5 0 010 10h-1" {..._s} /></svg>;
+    case 'logout':return <svg {...p}><path d="M15 4h3a2 2 0 012 2v12a2 2 0 01-2 2h-3M10 17l-5-5 5-5M5 12h11" {..._s} /></svg>;
+    case 'mail':return <svg {...p}><rect x="3" y="5" width="18" height="14" rx="2" {..._s} /><path d="M3 7l9 6 9-6" {..._s} /></svg>;
     default:return null;
   }
 }

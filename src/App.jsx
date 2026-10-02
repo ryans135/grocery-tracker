@@ -279,6 +279,8 @@ export default function App() {
     });
   };
 
+  const signOut = () => supabase.auth.signOut();
+
   const refresh = async () => {
     setSyncing(true);
     await load();
@@ -328,9 +330,9 @@ export default function App() {
   return (
     <div className="gt-app">
       <div className="shell">
-        <Sidebar view={view} setView={setView} oosCount={oos.length} shopCount={shop.length} onAdd={() => setItemModal({})} />
+        <Sidebar view={view} setView={setView} oosCount={oos.length} shopCount={shop.length} onAdd={() => setItemModal({})} onSignOut={signOut} />
         <main className="main">
-          <MobileBar syncing={syncing} onRefresh={refresh} />
+          <MobileBar syncing={syncing} onRefresh={refresh} onSignOut={signOut} />
           <div className="content">
             {error && <ErrorBanner msg={error} onRetry={() => { setError(null); load(); }} />}
 

@@ -196,6 +196,49 @@ export function NameModal({ onSet }) {
   );
 }
 
+// ── Sign-in (Supabase magic link) ──
+export function LoginModal({ notice }) {
+  const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [err, setErr] = useState(null);
+
+  const send = async (e) => {
+    e.preventDefault();
+    setBusy(true); setErr(null);
+    const { error } = await supabase.auth.signInWithOtp({
+      email: email.trim(),
+      options: { emailRedirectTo: window.location.origin + window.location.pathname },
+    });
+    setBusy(false);
+    if (error) setErr(error.message); else setSent(true);
+  };
+
+  return (
+    <Sheet title="Sign in" onClose={() => {}} center grab={false}>
+      {notice && <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--exp-fg)', margin: '0 0 12px' }}>{notice}</p>}
+      {sent ? (
+        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+          <div className="media" style={{ background: 'var(--accent-soft)', color: 'var(--accent)', flexShrink: 0 }}><Icon name="mail" size={22} /></div>
+          <p style={{ fontSize: 'var(--fs-body)', color: 'var(--ink-2)', margin: '4px 0' }}>
+            Check <b>{email.trim()}</b> and tap the sign-in link. You can close this tab.
+          </p>
+        </div>
+      ) : (
+        <form onSubmit={send}>
+          <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--ink-2)', margin: '0 0 12px' }}>We'll email you a one-tap sign-in link.</p>
+          <input className="input" type="email" required autoFocus placeholder="you@example.com"
+            value={email} onChange={(e) => setEmail(e.target.value)} aria-label="Email" />
+          {err && <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--exp-fg)', margin: '8px 0 0' }}>{err}</p>}
+          <button className="btn btn--primary btn--block" type="submit" disabled={busy} style={{ marginTop: 12 }}>
+            {busy ? <span className="spin" /> : "Email me a link"}
+          </button>
+        </form>
+      )}
+    </Sheet>
+  );
+}
+
 // ── Confirm ──
 export function ConfirmModal({ title, message, confirmLabel = "Confirm", danger = false, onConfirm, onClose }) {
   return (

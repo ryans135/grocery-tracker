@@ -31,7 +31,7 @@ function Brand() {
 }
 
 // ── Desktop sidebar ──
-export function Sidebar({ view, setView, oosCount, shopCount, onAdd }) {
+export function Sidebar({ view, setView, oosCount, shopCount, onAdd, onSignOut }) {
   const badge = { oos: oosCount, shopping: shopCount };
   return (
     <aside className="sidebar">
@@ -45,6 +45,10 @@ export function Sidebar({ view, setView, oosCount, shopCount, onAdd }) {
           {badge[n.id] > 0 && <span className="countpill">{badge[n.id]}</span>}
         </button>
       ))}
+      <div style={{ flex: 1 }} />
+      <button className="nav-item" onClick={onSignOut}>
+        <Icon name="logout" size={19} />Sign out
+      </button>
     </aside>
   );
 }
@@ -133,13 +137,14 @@ function SortMenu({ sortBy, setSortBy }) {
 }
 
 // ── Mobile top bar ──
-export function MobileBar({ syncing, onRefresh }) {
+export function MobileBar({ syncing, onRefresh, onSignOut }) {
   return (
     <div className="mobile-bar">
       <Brand />
       <div style={{ flex: 1 }} />
       {syncing && <span className="spin" />}
       <button className="btn btn--secondary btn--icon btn--sm" onClick={onRefresh} aria-label="Refresh"><Icon name="refresh" size={16} /></button>
+      <button className="btn btn--secondary btn--icon btn--sm" onClick={onSignOut} aria-label="Sign out"><Icon name="logout" size={16} /></button>
     </div>
   );
 }

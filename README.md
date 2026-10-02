@@ -1,16 +1,33 @@
-# React + Vite
+# Pantry — grocery tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite front end, Supabase (Postgres, Storage, Auth, Realtime) back end.
+Hosted on GitHub Pages; every push to `main` rebuilds and redeploys via
+`.github/workflows/deploy.yml`.
 
-Currently, two official plugins are available:
+## Access
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Sign-in is by emailed magic link. Only emails listed in the
+`public.allowed_users` table can read or change data (enforced by RLS — see
+`supabase/auth-lockdown.sql`). To add someone:
 
-## React Compiler
+```sql
+insert into public.allowed_users (email) values ('someone@example.com');
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Deploy configuration
 
-## Expanding the ESLint configuration
+- **Repo secrets** (Settings → Secrets and variables → Actions):
+  `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`
+- **Pages** (Settings → Pages): Source = GitHub Actions
+- **Supabase** (Authentication → URL Configuration): Site URL and Redirect
+  URLs include the Pages URL, e.g. `https://<user>.github.io/<repo>/`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Local development (optional)
+
+```bash
+cp .env.example .env   # fill in the two values
+npm install
+npm run dev
+```
+
+Add `http://localhost:5173/` to Supabase's Redirect URLs to sign in locally.
