@@ -21,8 +21,8 @@ alter table public.allowed_users enable row level security;
 -- No policies on allowed_users: clients can't read or edit the list.
 
 insert into public.allowed_users (email) values
-  ('RYAN_EMAIL_HERE'),
-  ('KEKE_EMAIL_HERE')
+  ('ryan.sulistian@gmail.com'),
+  ('eunike.florenciaa@gmail.com')
 on conflict do nothing;
 
 -- 2) Helper used by every policy (and by the app's login screen).
